@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Colors — raw values for Tailwind opacity support */
+  --color-forest: #0F6E56;
+  --color-offwhite: #F8F6F0;
+  --color-gold: #C9A84C;
+  --color-dark: #111111;
+  --color-teal: #008080;
+  --color-emerald-glow: #34D399;
+
+  /* Radii */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 2rem;
+  --radius-organic: 2.5rem;
+  --radius-section: 5rem;
+  --radius-full: 9999px;
+
+  /* Animation & Easing */
+  --ease-custom: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-linear: linear;
+  --speed-fast: 0.3s;
+  --speed-base: 0.7s;
+  --speed-slow: 1.2s;
+}
+
+body {
+  background-color: var(--color-offwhite);
+  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Subtle noise grain texture — very low z-index, doesn't block content */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.03;
+}
+
+/* Performance Rules: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.organic-card {
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 110, 86, 0.1);
+  border-radius: var(--radius-organic);
+  padding: 2.5rem;
+  transition: all var(--speed-base) var(--ease-custom);
+}
+
+.forest-shadow {
+  box-shadow: 0 25px 50px -12px rgba(15, 110, 86, 0.2);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-offwhite);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-forest);
+}
+
+@keyframes kenBurns {
+  0%   { transform: scale(1.0); }
+  100% { transform: scale(1.12) translate(-1%, 0.5%); }
+}
+
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
