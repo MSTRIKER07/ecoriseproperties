@@ -66,25 +66,25 @@ export default function HeroCanvas() {
       {/* Overlay 1: Vignette */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 10, pointerEvents: 'none',
-        background: 'radial-gradient(ellipse at 55% 45%, rgba(10,22,40,0) 0%, rgba(10,22,40,0.7) 100%)',
+        background: 'radial-gradient(ellipse at 55% 45%, rgba(10,22,40,0) 0%, rgba(10,22,40,0.4) 100%)',
       }} />
 
       {/* Overlay 2: Bottom fade */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 11, pointerEvents: 'none',
-        background: 'linear-gradient(to top, rgba(10,22,40,0.97) 0%, rgba(10,22,40,0.5) 30%, rgba(10,22,40,0) 55%)',
+        background: 'linear-gradient(to top, rgba(10,22,40,0.6) 0%, rgba(10,22,40,0.2) 20%, rgba(10,22,40,0) 45%)',
       }} />
 
       {/* Overlay 3: Left fade for text */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 12, pointerEvents: 'none',
-        background: 'linear-gradient(to right, rgba(10,22,40,0.85) 0%, rgba(10,22,40,0.4) 35%, rgba(10,22,40,0) 60%)',
+        background: 'linear-gradient(to right, rgba(10,22,40,0.5) 0%, rgba(10,22,40,0.15) 25%, rgba(10,22,40,0) 50%)',
       }} />
 
       {/* Overlay 4: Top fade */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 13, pointerEvents: 'none',
-        background: 'linear-gradient(to bottom, rgba(10,22,40,0.5) 0%, rgba(10,22,40,0) 12%)',
+        background: 'linear-gradient(to bottom, rgba(10,22,40,0.4) 0%, rgba(10,22,40,0) 10%)',
       }} />
     </div>
   );

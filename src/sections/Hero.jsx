@@ -83,7 +83,7 @@ export default function Hero() {
             fontSize: isMobile ? '3rem' : '5.5rem',
             fontWeight: 600,
             lineHeight: 1.0,
-            textShadow: '0 2px 40px rgba(0,0,0,0.5)',
+            textShadow: '0 4px 30px rgba(0,0,0,0.3)',
           }}
         >
           Your land,<br />
@@ -95,11 +95,12 @@ export default function Hero() {
         <motion.p
           variants={fadeUp}
           style={{
-            color: 'rgba(255,255,255,0.55)',
-            fontSize: 15,
-            fontWeight: 300,
-            maxWidth: 440,
-            lineHeight: 1.65,
+            color: '#fff',
+            fontSize: 16,
+            fontWeight: 400,
+            maxWidth: 480,
+            lineHeight: 1.6,
+            textShadow: '0 2px 10px rgba(0,0,0,0.5)',
           }}
         >
           {COMPANY.tagline}. Trusted by solar developers, agro investors,
@@ -136,8 +137,10 @@ export default function Hero() {
             }}
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm uppercase tracking-wider transition-all duration-300"
             style={{
-              border: '1px solid rgba(255,255,255,0.2)',
-              color: 'rgba(255,255,255,0.65)',
+              border: '1px solid rgba(255,255,255,0.35)',
+              color: '#fff',
+              backgroundColor: 'rgba(255,255,255,0.08)',
+              backdropFilter: 'blur(8px)',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)';
