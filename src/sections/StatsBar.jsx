@@ -33,16 +33,16 @@ function AnimatedCounter({ end, duration = 2.5 }) {
 
 export default function StatsBar() {
   return (
-    <section className="w-full py-24" style={{ backgroundColor: '#0F6E56', borderTop: '1px solid rgba(201,168,76,0.2)', borderBottom: '1px solid rgba(201,168,76,0.2)' }}>
+    <section className="w-full py-16 md:py-24" style={{ backgroundColor: '#0F6E56', borderTop: '1px solid rgba(201,168,76,0.2)', borderBottom: '1px solid rgba(201,168,76,0.2)' }}>
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 divide-x divide-offwhite/10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8 lg:divide-x lg:divide-offwhite/10">
           {stats.map((stat, idx) => (
-            <RevealUp key={stat.label} delay={idx * 0.15} className="flex flex-col items-center justify-center text-center px-4">
-              <div className="text-6xl md:text-8xl font-display font-bold text-offwhite mb-4 flex items-baseline">
+            <RevealUp key={stat.label} delay={idx * 0.15} className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
+              <div className="font-display font-bold text-offwhite mb-2 md:mb-4 flex items-baseline" style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)' }}>
                 <AnimatedCounter end={parseInt(stat.value)} />
-                <span className="text-gold text-5xl md:text-6xl ml-1">{stat.suffix}</span>
+                <span className="text-gold ml-1" style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}>{stat.suffix}</span>
               </div>
-              <div className="text-sm font-sans uppercase font-semibold tracking-widest text-offwhite/70">
+              <div className="text-xs sm:text-sm font-sans uppercase font-semibold tracking-widest text-offwhite/70">
                 {stat.label}
               </div>
             </RevealUp>

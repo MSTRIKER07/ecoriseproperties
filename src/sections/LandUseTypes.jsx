@@ -14,45 +14,38 @@ export default function LandUseTypes() {
   ];
 
   return (
-    <section id="land-types" className="w-full py-40 bg-white">
+    <section id="land-types" className="w-full py-20 md:py-32 lg:py-40 bg-white">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
         
         <RevealUp>
-          <div className="mb-24 flex justify-between items-end">
-            <h2 className="text-5xl md:text-7xl font-display text-forest text-center w-full">
+          <div className="mb-12 md:mb-20 lg:mb-24">
+            <h2 className="font-display text-forest text-center w-full" style={{ fontSize: 'clamp(2.5rem, 7vw, 4.5rem)' }}>
               Land Use <span className="italic text-gold">Types</span>
             </h2>
           </div>
         </RevealUp>
 
-        <div className="grid md:grid-cols-2 gap-x-24 gap-y-32">
+        <div className="grid sm:grid-cols-2 gap-x-8 md:gap-x-12 lg:gap-x-20 gap-y-12 md:gap-y-20">
           {LAND_USES.map((title, idx) => {
-            const isEven = idx % 2 !== 0; // 0-indexed, so 1, 3, 5 are the "right" column
             return (
-              <RevealUp key={title} delay={0.2} className={isEven ? "md:translate-y-[100px]" : ""}>
+              <RevealUp key={title} delay={0.15 * (idx % 2)}>
                 <div className="group cursor-pointer">
                   {/* Image Container */}
-                  <div className="relative w-full aspect-[3/4] rounded-[16px] overflow-hidden mb-8 shadow-xl">
+                  <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] rounded-2xl overflow-hidden mb-5 shadow-xl">
                     <img 
                       src={images[idx]} 
                       alt={title} 
                       className="w-full h-full object-cover grayscale transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:grayscale-0 group-hover:scale-[1.08]"
+                      loading="lazy"
                     />
-                    
-                    {/* Hover Circle */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none">
-                      <div className="w-[120px] h-[120px] bg-gold rounded-full flex items-center justify-center scale-75 group-hover:scale-100 transition-transform duration-500 shadow-2xl">
-                        <span className="text-forest text-[11px] font-black uppercase tracking-widest text-center leading-relaxed">View<br/>Sector</span>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Metadata */}
                   <div>
-                    <div className="text-[10px] font-bold uppercase tracking-[0.4em] mb-3 text-forest/50">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.4em] mb-2 text-forest/50">
                       Procurement Sector
                     </div>
-                    <h3 className="text-3xl font-display font-bold text-forest mb-2">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-forest">
                       {title}
                     </h3>
                   </div>

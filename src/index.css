@@ -27,12 +27,63 @@
   --speed-slow: 1.2s;
 }
 
+/* Box-sizing reset — prevents element widths from breaking layout */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  /* Safe area insets for notched phones (iPhone X, Android notch) */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
 body {
   background-color: var(--color-offwhite);
   color: #1a1a1a;
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  /* Remove blue flash on tap (Android Chrome) */
+  -webkit-tap-highlight-color: transparent;
+  /* Smooth momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent text from being auto-sized on orientation change */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Ensure images are naturally responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Prevent iframes from causing horizontal scroll */
+iframe {
+  max-width: 100%;
+}
+
+/* Tables scroll horizontally on small screens */
+table {
+  border-collapse: collapse;
+}
+
+/* Prevent wide fixed-width children from causing overflow */
+section, div, main, footer, nav, header {
+  max-width: 100%;
 }
 
 /* Subtle noise grain texture — very low z-index, doesn't block content */
@@ -70,22 +121,33 @@ body::before {
   transition: all var(--speed-base) var(--ease-custom);
 }
 
+/* Mobile: reduce organic card padding */
+@media (max-width: 640px) {
+  .organic-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+  }
+}
+
 .forest-shadow {
   box-shadow: 0 25px 50px -12px rgba(15, 110, 86, 0.2);
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-offwhite);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-gold);
-  border-radius: var(--radius-full);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-forest);
+/* Custom scrollbar — hidden on mobile to save space */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-offwhite);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-gold);
+    border-radius: var(--radius-full);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-forest);
+  }
 }
 
 @keyframes kenBurns {

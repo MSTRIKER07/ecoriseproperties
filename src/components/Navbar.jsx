@@ -6,6 +6,7 @@ import { COMPANY, NAV_LINKS } from '../data/content';
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,17 +24,39 @@ export default function Navbar() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className={`text-xl md:text-2xl font-display font-bold transition-colors ${scrolled ? 'text-forest' : 'text-white'}`}
+          className={`flex items-center transition-colors ${scrolled ? 'text-forest' : 'text-white'}`}
         >
-          {COMPANY.name.split(' ')[0]} <span className={scrolled ? 'font-light' : 'font-light text-gold'}>{COMPANY.name.split(' ').slice(1).join(' ')}</span>
+          <a href="#" className="flex items-center hover:opacity-90 transition-opacity">
+            {!logoError && (
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img 
+                  src="/logo.png" 
+                  alt="Ecorise Properties Logo" 
+                  className="h-12 md:h-16 w-auto object-contain mr-3"
+                  loading="eager"
+                  onError={() => setLogoError(true)}
+                />
+              </picture>
+            )}
+            {logoError && (
+              <span className={`text-xl md:text-2xl font-display font-bold ${scrolled ? 'text-forest' : 'text-white'}`}>
+                {COMPANY.name.split(' ')[0]} <span className={scrolled ? 'font-light' : 'font-light text-gold'}>{COMPANY.name.split(' ').slice(1).join(' ')}</span>
+              </span>
+            )}
+          </a>
         </motion.div>
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.filter(link => link.name !== 'Contact').map((link) => (
             <a 
               key={link.name} 
               href={link.href} 
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className={`font-sans font-medium uppercase text-sm tracking-wider transition-colors hover:text-gold ${scrolled ? 'text-forest/80' : 'text-white/90 hover:text-gold'}`}
             >
               {link.name}
@@ -67,11 +90,17 @@ export default function Navbar() {
             className="lg:hidden absolute top-24 left-0 w-full bg-white shadow-xl overflow-hidden border-t border-forest/10"
           >
             <div className="flex flex-col p-6 gap-6">
-              {NAV_LINKS.map((link) => (
+              {NAV_LINKS.filter(link => link.name !== 'Contact').map((link) => (
                 <a 
                   key={link.name} 
                   href={link.href} 
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    setTimeout(() => {
+                      document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+                    }, 50);
+                  }}
                   className="font-display text-xl text-forest font-bold"
                 >
                   {link.name}

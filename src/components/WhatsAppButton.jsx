@@ -9,7 +9,12 @@ export default function WhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 z-50 group flex items-center justify-center w-14 h-14 bg-emerald-500 rounded-full shadow-2xl transition-transform hover:scale-110"
+      aria-label="Contact us on WhatsApp"
+      className="fixed z-50 group flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-emerald-500 rounded-full shadow-2xl transition-transform hover:scale-110 active:scale-95"
+      style={{
+        bottom: 'calc(1.25rem + env(safe-area-inset-bottom, 0px))',
+        right: '1.25rem',
+      }}
     >
       {/* Pulse Ring Animation via CSS (Tailwind arbitrary values or custom class) */}
       <div className="absolute inset-0 rounded-full border-2 border-emerald-400 opacity-0 group-hover:animate-[ping_1.5s_cubic-bezier(0,0,0.2,1)_infinite]"></div>

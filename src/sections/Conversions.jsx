@@ -28,7 +28,7 @@ export function ProductSpotlight() {
         {/* Right: Copy */}
         <div className="max-w-xl">
           <div className="text-gold font-bold uppercase tracking-[0.3em] text-[12px] mb-6">Featured Opportunity</div>
-          <h2 className="text-5xl md:text-7xl font-display font-bold text-charcoal mb-8 leading-tight">Murud Industrial Corridor.</h2>
+          <h2 className="font-display font-bold text-charcoal mb-8 leading-tight" style={{ fontSize: 'clamp(2rem, 6vw, 4.5rem)' }}>Murud Industrial Corridor.</h2>
           
           <div className="flex items-center gap-6 mb-10">
             <span className="text-3xl font-bold text-charcoal">₹2.4 Cr / Acre</span>
@@ -81,37 +81,40 @@ export function ComparisonSection() {
   return (
     <section className="section-padding bg-white">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-charcoal mb-6">Why Professionals <br/> Choose Us.</h2>
+        <div className="text-center mb-12 md:mb-20">
+          <h2 className="font-display font-bold text-charcoal mb-6" style={{ fontSize: 'clamp(1.75rem, 6vw, 3.75rem)' }}>Why Professionals <br/> Choose Us.</h2>
         </div>
 
-        <div className="bg-primary rounded-5xl overflow-hidden border border-[#E2E8E4] shadow-sm">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-sage/30">
-                <th className="py-8 px-10 text-left text-[14px] font-bold uppercase tracking-widest text-charcoal/40">Capability</th>
-                <th className="py-8 px-10 text-center text-[14px] font-bold uppercase tracking-widest text-charcoal">Ecorise</th>
-                <th className="py-8 px-10 text-center text-[14px] font-bold uppercase tracking-widest text-charcoal/40">Standard Brokers</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#E2E8E4]">
-              {rows.map((row, i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white/50' : 'bg-transparent'}>
-                  <td className="py-8 px-10 font-medium text-charcoal">{row.feature}</td>
-                  <td className="py-8 px-10 text-center">
-                    <div className="w-10 h-10 rounded-full bg-sage/50 flex items-center justify-center mx-auto">
-                      <Check className="w-6 h-6 text-charcoal" />
-                    </div>
-                  </td>
-                  <td className="py-8 px-10 text-center opacity-30">
-                    <div className="w-10 h-10 rounded-full bg-urgency/10 flex items-center justify-center mx-auto">
-                      {row.them ? <Check className="w-6 h-6 text-urgency" /> : <X className="w-6 h-6 text-urgency" />}
-                    </div>
-                  </td>
+        <div className="bg-primary rounded-3xl md:rounded-5xl overflow-hidden border border-[#E2E8E4] shadow-sm">
+          {/* Scrollable wrapper for mobile */}
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[480px]">
+              <thead>
+                <tr className="bg-sage/30">
+                  <th className="py-5 md:py-8 px-4 sm:px-6 md:px-10 text-left text-[12px] md:text-[14px] font-bold uppercase tracking-widest text-charcoal/40">Capability</th>
+                  <th className="py-5 md:py-8 px-4 sm:px-6 md:px-10 text-center text-[12px] md:text-[14px] font-bold uppercase tracking-widest text-charcoal">Ecorise</th>
+                  <th className="py-5 md:py-8 px-4 sm:px-6 md:px-10 text-center text-[12px] md:text-[14px] font-bold uppercase tracking-widest text-charcoal/40">Standard Brokers</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-[#E2E8E4]">
+                {rows.map((row, i) => (
+                  <tr key={i} className={i % 2 === 0 ? 'bg-white/50' : 'bg-transparent'}>
+                    <td className="py-5 md:py-8 px-4 sm:px-6 md:px-10 font-medium text-charcoal text-sm md:text-base">{row.feature}</td>
+                    <td className="py-5 md:py-8 px-4 sm:px-6 md:px-10 text-center">
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-sage/50 flex items-center justify-center mx-auto">
+                        <Check className="w-5 h-5 md:w-6 md:h-6 text-charcoal" />
+                      </div>
+                    </td>
+                    <td className="py-5 md:py-8 px-4 sm:px-6 md:px-10 text-center opacity-30">
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-urgency/10 flex items-center justify-center mx-auto">
+                        {row.them ? <Check className="w-5 h-5 md:w-6 md:h-6 text-urgency" /> : <X className="w-5 h-5 md:w-6 md:h-6 text-urgency" />}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

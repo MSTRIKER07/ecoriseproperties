@@ -2,29 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import HeroCanvas from '../components/HeroCanvas';
-import { COMPANY, STATS } from '../data/content';
-
-// ── Animated counter ──────────────────────────────────────────────────────────
-function CountUp({ end, suffix }) {
-  const [count, setCount] = useState(0);
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
-
-  useEffect(() => {
-    if (!inView) return;
-    let start = null;
-    const duration = 2000;
-    const step = (ts) => {
-      if (!start) start = ts;
-      const progress = Math.min((ts - start) / duration, 1);
-      const ease = 1 - Math.pow(2, -10 * progress);
-      setCount(Math.floor(ease * end));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [inView, end]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
-}
+import { COMPANY } from '../data/content';
 
 // ── Framer variants ───────────────────────────────────────────────────────────
 const stagger = {
@@ -36,14 +14,28 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } },
 };
 
+function useWindowWidth() {
+  const [width, setWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1024
+  );
+  useEffect(() => {
+    const handler = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return width;
+}
+
 export default function Hero() {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const windowWidth = useWindowWidth();
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth < 1024;
 
   return (
     <section
       id="hero"
       className="relative w-full overflow-hidden"
-      style={{ height: '100svh', minHeight: 600, backgroundColor: '#0A1628' }}
+      style={{ height: '100svh', minHeight: isMobile ? 580 : 640, backgroundColor: '#0A1628' }}
     >
       {/* Canvas layer */}
       <HeroCanvas />
@@ -53,17 +45,18 @@ export default function Hero() {
         variants={stagger}
         initial="hidden"
         animate="visible"
-        className="absolute z-10 flex flex-col gap-5"
+        className="absolute z-10 flex flex-col gap-4 sm:gap-5"
         style={{
-          bottom: '12%',
-          left: isMobile ? '5%' : '8%',
-          maxWidth: isMobile ? '90%' : 640,
+          bottom: isMobile ? '8%' : '12%',
+          left: isMobile ? '5%' : isTablet ? '6%' : '8%',
+          right: isMobile ? '5%' : 'auto',
+          maxWidth: isMobile ? undefined : isTablet ? 520 : 640,
         }}
       >
         {/* Badge */}
         <motion.div variants={fadeUp}>
           <span
-            className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] px-4 py-2 rounded-full"
+            className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em] sm:tracking-[0.22em] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full"
             style={{
               border: '1px solid rgba(52,211,153,0.3)',
               color: '#34D399',
@@ -80,9 +73,9 @@ export default function Hero() {
           variants={fadeUp}
           className="font-display leading-none text-white"
           style={{
-            fontSize: isMobile ? '3rem' : '5.5rem',
+            fontSize: 'clamp(2.2rem, 8vw, 5.5rem)',
             fontWeight: 600,
-            lineHeight: 1.0,
+            lineHeight: 1.05,
             textShadow: '0 4px 30px rgba(0,0,0,0.3)',
           }}
         >
@@ -96,9 +89,9 @@ export default function Hero() {
           variants={fadeUp}
           style={{
             color: '#fff',
-            fontSize: 16,
+            fontSize: 'clamp(13px, 3.5vw, 16px)',
             fontWeight: 400,
-            maxWidth: 480,
+            maxWidth: isMobile ? '100%' : 480,
             lineHeight: 1.6,
             textShadow: '0 2px 10px rgba(0,0,0,0.5)',
           }}
@@ -115,7 +108,7 @@ export default function Hero() {
               e.preventDefault();
               document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:scale-[1.03]"
+            className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]"
             style={{
               backgroundColor: '#34D399',
               color: '#000',
@@ -125,7 +118,7 @@ export default function Hero() {
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#34D399')}
           >
             Explore Land
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </a>
@@ -135,7 +128,7 @@ export default function Hero() {
               e.preventDefault();
               document.querySelector('#process')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm uppercase tracking-wider transition-all duration-300"
+            className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 active:scale-[0.98]"
             style={{
               border: '1px solid rgba(255,255,255,0.35)',
               color: '#fff',
@@ -154,33 +147,7 @@ export default function Hero() {
             Our Process
           </a>
         </motion.div>
-
-        {/* Mobile stat row */}
-        {isMobile && (
-          <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mt-2">
-            {STATS.map((s) => (
-              <div
-                key={s.label}
-                className="px-4 py-2 rounded-xl text-center"
-                style={{
-                  backgroundColor: 'rgba(10,22,40,0.65)',
-                  border: '1px solid rgba(52,211,153,0.18)',
-                  backdropFilter: 'blur(14px)',
-                }}
-              >
-                <div className="font-display text-xl font-semibold" style={{ color: '#34D399' }}>
-                  <CountUp end={s.value} suffix={s.suffix} />
-                </div>
-                <div className="text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                  {s.label}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        )}
       </motion.div>
-
-
     </section>
   );
 }

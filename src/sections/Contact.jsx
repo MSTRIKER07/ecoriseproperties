@@ -6,14 +6,58 @@ import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   const getFormData = (form) => Object.fromEntries(new FormData(form).entries());
 
+  const validateForm = (form) => {
+    setError('');
+    const data = getFormData(form);
+    
+    if (!data.fullName?.trim()) {
+      setError('Full Name is required.');
+      return false;
+    }
+    if (!data.phone?.trim()) {
+      setError('Phone Number is required.');
+      return false;
+    }
+    if (!data.email?.trim()) {
+      setError('Email Address is required.');
+      return false;
+    }
+    if (!data.requirement?.trim()) {
+      setError('Please select a Land Requirement.');
+      return false;
+    }
+    if (!data.message?.trim()) {
+      setError('Message cannot be empty.');
+      return false;
+    }
+
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(data.email)) {
+      setError('Please enter a valid email address.');
+      return false;
+    }
+
+    const phoneRegex = /^\+?[\d\s-]{10,}$/;
+    if (!phoneRegex.test(data.phone)) {
+      setError('Please enter a valid WhatsApp/Phone number.');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleWhatsApp = (e) => {
     e.preventDefault();
-    const data = getFormData(e.target.closest('form'));
-    const msg = `*New Inquiry from Website*%0A%0A*Name:* ${data.fullName}%0A*Phone:* ${data.phone}%0A*Email:* ${data.email}%0A*Requirement:* ${data.requirement || 'Not specified'}%0A%0A*Message:*%0A${data.message}`;
-    window.open(`https://wa.me/${COMPANY.whatsapp}?text=${msg}`, '_blank');
+    const form = e.target.closest('form');
+    if (!validateForm(form)) return;
+    const data = getFormData(form);
+    const rawMsg = `*New Inquiry from Website*\n\n*Name:* ${data.fullName}\n*Phone:* ${data.phone}\n*Email:* ${data.email}\n*Requirement:* ${data.requirement || 'Not specified'}\n\n*Message:*\n${data.message}`;
+    const encodedMsg = encodeURIComponent(rawMsg);
+    window.open(`https://wa.me/${COMPANY.whatsapp}?text=${encodedMsg}`, '_blank');
     e.target.closest('form').reset();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 4000);
@@ -21,7 +65,9 @@ export default function Contact() {
 
   const handleEmail = (e) => {
     e.preventDefault();
-    const data = getFormData(e.target.closest('form'));
+    const form = e.target.closest('form');
+    if (!validateForm(form)) return;
+    const data = getFormData(form);
     const subject = encodeURIComponent(`Land Inquiry: ${data.requirement || 'General'} — ${data.fullName}`);
     const body = encodeURIComponent(`Name: ${data.fullName}\nPhone: ${data.phone}\nEmail: ${data.email}\nRequirement: ${data.requirement || 'Not specified'}\n\nMessage:\n${data.message}`);
     window.location.href = `mailto:${COMPANY.emails[0]}?subject=${subject}&body=${body}`;
@@ -31,19 +77,19 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-32 bg-offwhite">
+    <section id="contact" className="py-20 md:py-32 bg-offwhite">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
-        <div className="text-center mb-24">
+        <div className="text-center mb-12 md:mb-24">
           <RevealUp>
-            <h2 className="text-4xl md:text-6xl font-display text-forest mb-6">
+            <h2 className="font-display text-forest mb-6" style={{ fontSize: 'clamp(1.75rem, 6vw, 3.75rem)' }}>
               Contact <span className="italic text-gold">Us</span>
             </h2>
           </RevealUp>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
-          <RevealUp delay={0.2} className="flex flex-col h-full gap-8">
-            <div className="w-full h-80 bg-gray-200 rounded-2xl overflow-hidden shadow-lg border border-forest/10">
+        <div className="grid lg:grid-cols-2 gap-10 md:gap-16">
+          <RevealUp delay={0.2} className="flex flex-col h-full gap-6 md:gap-8">
+            <div className="w-full h-56 sm:h-72 md:h-80 bg-gray-200 rounded-2xl overflow-hidden shadow-lg border border-forest/10">
               <iframe
                 title="Google Maps Embed Latur"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121058.49019688487!2d76.5134707!3d18.4032177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcf83bd7132cd29%3A0x83629bac584ce60!2sLatur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
@@ -86,9 +132,9 @@ export default function Contact() {
           </RevealUp>
 
           <RevealUp delay={0.4} className="h-full">
-            <div className="bg-white p-10 md:p-12 rounded-2xl shadow-xl h-full border border-forest/10">
-              <h3 className="text-3xl font-display font-bold mb-8 text-forest">Send an Inquiry</h3>
-              <form className="space-y-6">
+            <div className="bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded-2xl shadow-xl h-full border border-forest/10">
+              <h3 className="text-2xl md:text-3xl font-display font-bold mb-6 md:mb-8 text-forest">Send an Inquiry</h3>
+              <form className="space-y-5 md:space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-forest/70">Full Name</label>
@@ -107,7 +153,7 @@ export default function Contact() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-forest/70">Land Requirement</label>
-                  <select name="requirement" className="w-full bg-offwhite border border-forest/10 rounded-lg py-3 px-4 outline-none focus:border-gold transition-colors text-forest">
+                  <select name="requirement" required className="w-full bg-offwhite border border-forest/10 rounded-lg py-3 px-4 outline-none focus:border-gold transition-colors text-forest">
                     <option value="">Select an option</option>
                     {LAND_REQUIREMENT_OPTIONS.map((opt, i) => (
                       <option key={i} value={opt}>{opt}</option>
@@ -120,6 +166,17 @@ export default function Contact() {
                   <textarea name="message" required rows="4" className="w-full bg-offwhite border border-forest/10 rounded-lg py-3 px-4 outline-none focus:border-gold transition-colors text-forest resize-none" placeholder="Tell us about your requirements..."></textarea>
                 </div>
                 
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="w-full text-center py-3 px-4 rounded-lg text-sm font-semibold"
+                    style={{ backgroundColor: 'rgba(239,68,68,0.12)', color: '#B91C1C', border: '1px solid rgba(239,68,68,0.3)' }}
+                  >
+                    {error}
+                  </motion.div>
+                )}
+
                 {submitted && (
                   <motion.div
                     initial={{ opacity: 0, y: -8 }}
@@ -131,13 +188,13 @@ export default function Contact() {
                   </motion.div>
                 )}
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
                     type="button"
                     onClick={handleWhatsApp}
-                    className="flex items-center justify-center gap-2 py-4 rounded-lg font-bold text-white text-sm uppercase tracking-wider transition-colors shadow-lg"
+                    className="flex items-center justify-center gap-2 py-3 md:py-4 rounded-lg font-bold text-white text-sm uppercase tracking-wider transition-colors shadow-lg"
                     style={{ backgroundColor: '#25D366' }}
                   >
                     <MessageCircle className="w-4 h-4" />
@@ -149,7 +206,7 @@ export default function Contact() {
                     whileTap={{ scale: 0.97 }}
                     type="button"
                     onClick={handleEmail}
-                    className="flex items-center justify-center gap-2 py-4 rounded-lg font-bold text-white text-sm uppercase tracking-wider transition-colors shadow-lg"
+                    className="flex items-center justify-center gap-2 py-3 md:py-4 rounded-lg font-bold text-white text-sm uppercase tracking-wider transition-colors shadow-lg"
                     style={{ backgroundColor: '#0F6E56' }}
                   >
                     <Mail className="w-4 h-4" />

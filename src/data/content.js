@@ -9,17 +9,23 @@ export const COMPANY = {
   tagline: "Your Single Window Solution for Land Procurement",
   address: "P No. 21, Devarao Nagar, Railway Station Road, Murud BK, Murud, Latur, Maharashtra 413510",
   addressShort: "Murud, Latur, Maharashtra 413510",
-  phones: ["+91 9730118107", "+91 9309719475"],
+  phones: ["+91 7620015700"],
   emails: ["ecoriseproperties@gmail.com"],
-  whatsapp: "919730118107",
+  whatsapp: "7620015700",
   officeAddress: "Office No. 46, Ground Floor, Patil Plaza, Parvati, Pune 411009"
 };
 
+export const SOCIAL_LINKS = [
+  { name: "LinkedIn", href: "#", icon: "Linkedin" },
+  { name: "Facebook", href: "#", icon: "Facebook" },
+  { name: "Twitter", href: "#", icon: "Twitter" }
+];
+
 export const STATS = [
   { value: 1200, suffix: "+", label: "Acres Acquired" },
-  { value: 70,   suffix: "+", label: "Ground Agents" },
-  { value: 50,   suffix: "+", label: "Locations" },
-  { value: 10,   suffix: "+", label: "Years Experience" }
+  { value: 70, suffix: "+", label: "Ground Agents" },
+  { value: 50, suffix: "+", label: "Locations" },
+  { value: 10, suffix: "+", label: "Years Experience" }
 ];
 
 export const SERVICES = [
